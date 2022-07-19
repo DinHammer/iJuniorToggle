@@ -8,33 +8,25 @@ public class Player : MonoBehaviour
     [SerializeField] private int _maxHealthValue;
     [SerializeField] private int _healthValue;
     [SerializeField] private int _damageValue;
-    [SerializeField] private float _speedHealthChange;
-
-    private float _newValue;
     
-    public float Health { get; private set; }
+    private float _health;
     public float MaxHealth => _maxHealthValue;
     
-
     private void Awake()
     {
-        Health = _maxHealthValue;
-        _newValue = _maxHealthValue;
+        _health = _maxHealthValue;
     }
 
-    private void Update()
+    public float Heal()
     {
-        Health = Mathf.MoveTowards(Health, _newValue, _speedHealthChange * Time.deltaTime);
+        _health = Mathf.Clamp(_health + _healthValue, 0, _maxHealthValue);
+        return _health;
     }
 
-    public void Healing()
+    public float TakeDamage()
     {
-        _newValue = Mathf.Clamp(Health + _healthValue, 0, _maxHealthValue);
-    }
-
-    public void DealDamage()
-    {
-        _newValue = Mathf.Clamp(Health - _damageValue, 0, _maxHealthValue);
+        _health = Mathf.Clamp(_health - _damageValue, 0, _maxHealthValue);
+        return _health;
     }
     
 }

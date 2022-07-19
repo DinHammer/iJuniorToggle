@@ -14,23 +14,19 @@ public class SceneController : MonoBehaviour
     private void Awake()
     {
         _buttonHealing.Init(OnButtonHealingClicked);
-        _buttonDealDamage.Init(OnButtonDealDamageClicked);
+        _buttonDealDamage.Init(OnButtonTakeDamageClicked);
         _healthBar.Init(_player.MaxHealth);
-    }
-    
-    void Update()
-    {
-        _currentHealth = _player.Health;
-        _healthBar.AddHealth(_currentHealth);
     }
 
     private void OnButtonHealingClicked()
     {
-        _player.Healing();
+        _currentHealth = _player.Heal();
+        _healthBar.SetValue(_currentHealth);
     }
 
-    private void OnButtonDealDamageClicked()
+    private void OnButtonTakeDamageClicked()
     {
-        _player.DealDamage();
+        _currentHealth = _player.TakeDamage();
+        _healthBar.SetValue(_currentHealth);
     }
 }
