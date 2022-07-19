@@ -250,7 +250,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcdf562541bed9e4fac129381e682ac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recoveryRate: 5
 --- !u!114 &100943569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1387,6 +1386,7 @@ MonoBehaviour:
   _maxHealthValue: 100
   _healthValue: 10
   _damageValue: 10
+  recoveryRate: 6
 --- !u!1 &2023189187
 GameObject:
   m_ObjectHideFlags: 0
