@@ -2,31 +2,33 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
     [SerializeField] private int _maxHealthValue;
-    [SerializeField] private int _healthValue;
-    [SerializeField] private int _damageValue;
+    [SerializeField] private int _healingValue;
+    [SerializeField] private int _damagingValue;
+
+    private int _currentHealth;
     
-    private float _health;
-    public float MaxHealth => _maxHealthValue;
-    
+    public UnityEvent<int> unityEvent;
+
     private void Awake()
     {
-        _health = _maxHealthValue;
+        _currentHealth = _maxHealthValue;
     }
 
-    public float Heal()
+    public void Heal()
     {
-        _health = Mathf.Clamp(_health + _healthValue, 0, _maxHealthValue);
-        return _health;
+        _currentHealth = Mathf.Clamp(_currentHealth + _healingValue, 0, _maxHealthValue);
+        unityEvent.Invoke(_currentHealth);
     }
 
-    public float TakeDamage()
+    public void TakeDamage()
     {
-        _health = Mathf.Clamp(_health - _damageValue, 0, _maxHealthValue);
-        return _health;
+        _currentHealth = Mathf.Clamp(_currentHealth - _damagingValue, 0, _maxHealthValue);
+        unityEvent.Invoke(_currentHealth);
     }
     
 }

@@ -4,33 +4,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Toggle))]
+[RequireComponent(typeof(Slider))]
 public class HealthBar : MonoBehaviour
 {
-    [SerializeField] private float _speed;
-    private Slider _slider;
-    private float _newValue;
-    private float _currentValue;
+    [SerializeField] private int _speed;
     
+    private Slider _slider;
+    private float _currentValue;
+    private Coroutine _coroutine;
+    private bool _isCoroutineRun;
 
-    public void Init(float maxValue)
+    private void Awake()
     {
         _slider = GetComponent<Slider>();
-        _slider.maxValue = maxValue;
-        _slider.value = maxValue;
-        _currentValue = maxValue;
-        _newValue = maxValue;
+        _currentValue = _slider.value;
+    }
+    
+    public void SetValue(int value)
+    {
+        if (_isCoroutineRun == true)
+        {
+            StopCoroutine(_coroutine);
+        }
+
+        _coroutine = StartCoroutine(ChangeValue(value));
     }
 
-    private void Update()
+    private IEnumerator ChangeValue(float value)
     {
-        _currentValue = Mathf.MoveTowards(_currentValue, _newValue, _speed * Time.deltaTime);
-        _slider.value = _currentValue;
-    }
+        _isCoroutineRun = true;
 
-    public void SetValue(float value)
-    {
-        _newValue = value;
+        while (_currentValue != value)
+        {
+            _currentValue = Mathf.MoveTowards(_currentValue, value, _speed * Time.deltaTime);
+            _slider.value = _currentValue;
+            yield return null;
+        }
+
+        _isCoroutineRun = false;
     }
 
 }
